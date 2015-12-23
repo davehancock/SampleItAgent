@@ -13,14 +13,15 @@ buildscript {
 apply plugin: 'spring-boot'
 apply plugin: 'java'
 
-sourceCompatibility = 1.8
-
 repositories {
     jcenter()
+    maven {
+        url 'https://dl.bintray.com/daves125125/maven-repo/'
+    }
 }
 
 dependencies {
-    compile project(':SampleItCore')
+    compile 'com.djh.sampleit:SampleItCore:1.0'
 
     compile 'com.github.dblock:oshi-core:1.5.1'
     compile 'org.springframework.boot:spring-boot-starter-web:1.3.0.RELEASE'
