@@ -1,8 +1,16 @@
+sudo: required
+services:
+  - docker
 
 language: java
 
 jdk:
   - oraclejdk8
+
+after_success:
+- docker build -t daves125125/sampleit-agent .
+- docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+- docker push daves125125/sampleit-agent
 
 notifications:
   email: false

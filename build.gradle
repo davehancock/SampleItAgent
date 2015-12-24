@@ -17,6 +17,10 @@ bootRun {
     systemProperties System.properties
 }
 
+jar {
+    archiveName = "SampleItAgent.jar"
+}
+
 repositories {
     jcenter()
     maven {
