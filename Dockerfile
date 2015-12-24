@@ -7,7 +7,7 @@ RUN yum install -y epel-release
 RUN yum install -y java-1.8.0-openjdk
 
 # Copy Binary
-COPY ./build/libs/SampleItServer.jar /app/dist/SampleItAgent.jar
+COPY ./build/libs/SampleItAgent.jar /app/dist/SampleItAgent.jar
 WORKDIR /app/dist
 
 CMD ["java", "-jar", "SampleItAgent.jar"]
