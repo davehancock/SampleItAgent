@@ -7,6 +7,8 @@ import com.djh.sampleit.cpu.oshi.OSHIMetricSource;
 import com.djh.sampleit.metadata.MetricMetadata;
 import com.djh.sampleit.metadata.MetricMetadataService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,9 @@ public class DefaultCPUMetricCollector implements CPUMetricCollector {
 
     @Autowired
     private MetricMetadataService metricMetadataService;
+
+    @Autowired
+    private Environment environment;
 
     @Override
     public CPUMetric collectCPUMetric() {

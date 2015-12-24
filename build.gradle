@@ -13,6 +13,10 @@ buildscript {
 apply plugin: 'spring-boot'
 apply plugin: 'java'
 
+bootRun {
+    systemProperties System.properties
+}
+
 repositories {
     jcenter()
     maven {

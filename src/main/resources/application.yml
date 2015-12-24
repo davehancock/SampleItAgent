@@ -1,7 +1,19 @@
 
 sampleit:
   server:
-    uri: http://localhost:3333
+    uri: http://djh.tech:3333
 
 server:
   port: 2222
+
+---
+
+spring:
+    profiles: development
+
+server:
+  port: 2222
+
+sampleit:
+  server:
+    uri: http://localhost:3333
