@@ -6,12 +6,18 @@ import com.djh.sampleit.metadata.MetricMetadataService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import oshi.SystemInfo;
 
 /**
  * @author David Hancock
  */
 @Configuration
 public class AgentConfiguration {
+
+    @Bean
+    public SystemInfo systemInfo(){
+        return new SystemInfo();
+    }
 
     @Bean
     public OSHIMetricSource oshiMetricSource() {

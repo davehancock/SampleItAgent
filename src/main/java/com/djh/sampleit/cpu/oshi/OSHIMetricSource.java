@@ -1,5 +1,8 @@
 package com.djh.sampleit.cpu.oshi;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import oshi.SystemInfo;
 import oshi.hardware.Processor;
 
@@ -8,8 +11,8 @@ import oshi.hardware.Processor;
  */
 public class OSHIMetricSource {
 
-    // TODO Spring bean it?
-    private SystemInfo systemInfo = new SystemInfo();
+    @Autowired
+    private SystemInfo systemInfo;
 
     public OSHICPUMetric readOSHICPUMetric() {
 
@@ -19,13 +22,12 @@ public class OSHIMetricSource {
         for (Processor processor : processors) {
 
             double processorTickSpeed = processor.getProcessorCpuLoadBetweenTicks() * 100;
-            double formattedProcessorTickSpeed = Math.round(processorTickSpeed * 100) / 100;
+            double formattedProcessorTickSpeed = Math.round(processorTickSpeed * 100.0) / 100.0;
 
             cpuLoads[processor.getProcessorNumber()] = formattedProcessorTickSpeed;
         }
 
-        OSHICPUMetric oshicpuMetric = new OSHICPUMetric(processors.length, cpuLoads);
-        return oshicpuMetric;
+        return new OSHICPUMetric(processors.length, cpuLoads);
     }
 
 }

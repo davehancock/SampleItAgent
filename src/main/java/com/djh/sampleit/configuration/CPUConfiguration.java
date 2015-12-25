@@ -57,7 +57,7 @@ public class CPUConfiguration {
 
         // TODO Integrate MetricMetadata service into this flow instead of injecting it into the specific collector implementation
         return IntegrationFlows
-                .from(cpuMetricMessageSource, p -> p.poller(Pollers.fixedRate(500)))
+                .from(cpuMetricMessageSource, p -> p.poller(Pollers.fixedRate(1000)))
                 .enrichHeaders(httpHeaders)
                 .handle(httpGateway)
                 .get();
