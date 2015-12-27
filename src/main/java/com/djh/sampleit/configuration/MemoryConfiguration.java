@@ -37,7 +37,7 @@ public class MemoryConfiguration {
     }
 
     @Bean
-    public MessageSource cpuMetricMessageSource(MemoryMetricCollector memoryMetricCollector) {
+    public MessageSource memoryMetricMessageSource(MemoryMetricCollector memoryMetricCollector) {
         MethodInvokingMessageSource methodInvokingMessageSource = new MethodInvokingMessageSource();
         methodInvokingMessageSource.setObject(memoryMetricCollector);
         methodInvokingMessageSource.setMethodName("collectMemoryMetric");
