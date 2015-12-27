@@ -3,12 +3,10 @@ package com.djh.sampleit.cpu.collector;
 import com.djh.sampleit.cpu.controller.model.CPUCore;
 import com.djh.sampleit.cpu.controller.model.CPUMetric;
 import com.djh.sampleit.cpu.oshi.OSHICPUMetric;
-import com.djh.sampleit.cpu.oshi.OSHIMetricSource;
+import com.djh.sampleit.cpu.oshi.OSHICPUMetricSource;
 import com.djh.sampleit.metadata.MetricMetadata;
 import com.djh.sampleit.metadata.MetricMetadataService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.core.env.Environment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,26 +17,18 @@ import java.util.List;
 public class DefaultCPUMetricCollector implements CPUMetricCollector {
 
     @Autowired
-    private OSHIMetricSource oshiMetricSource;
+    private OSHICPUMetricSource OSHICPUMetricSource;
 
     @Autowired
     private MetricMetadataService metricMetadataService;
-
-    @Autowired
-    private Environment environment;
 
     @Override
     public CPUMetric collectCPUMetric() {
 
         MetricMetadata metricMetadata = metricMetadataService.collectMetricMetadata();
 
-        OSHICPUMetric oshicpuMetric = oshiMetricSource.readOSHICPUMetric();
-
-        CPUMetric cpuMetric = new CPUMetric();
-        cpuMetric.setMetricMetadata(metricMetadata);
-        cpuMetric.setCpuCores(processCPUCores(oshicpuMetric));
-
-        return cpuMetric;
+        OSHICPUMetric oshicpuMetric = OSHICPUMetricSource.readOSHICPUMetric();
+        return new CPUMetric(metricMetadata, processCPUCores(oshicpuMetric));
     }
 
     private List<CPUCore> processCPUCores(OSHICPUMetric oshicpuMetric) {

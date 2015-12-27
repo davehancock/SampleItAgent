@@ -3,7 +3,7 @@ package com.djh.sampleit.cpu.collector;
 
 import com.djh.sampleit.cpu.controller.model.CPUMetric;
 import com.djh.sampleit.cpu.oshi.OSHICPUMetric;
-import com.djh.sampleit.cpu.oshi.OSHIMetricSource;
+import com.djh.sampleit.cpu.oshi.OSHICPUMetricSource;
 import com.djh.sampleit.metadata.MetricMetadata;
 import com.djh.sampleit.metadata.MetricMetadataService;
 import org.junit.Assert;
@@ -34,7 +34,7 @@ public class DefaultCPUMetricCollectorTest {
     private CPUMetricCollector cpuMetricCollector = new DefaultCPUMetricCollector();
 
     @Mock
-    private OSHIMetricSource oshiMetricSource;
+    private OSHICPUMetricSource OSHICPUMetricSource;
 
     @Mock
     private MetricMetadataService metricMetadataService;
@@ -42,7 +42,7 @@ public class DefaultCPUMetricCollectorTest {
     @Test
     public void testCollectCPUMetric() {
 
-        Mockito.when(oshiMetricSource.readOSHICPUMetric()).thenReturn(oshicpuMetric);
+        Mockito.when(OSHICPUMetricSource.readOSHICPUMetric()).thenReturn(oshicpuMetric);
         Mockito.when(metricMetadataService.collectMetricMetadata()).thenReturn(metricMetadata);
 
         CPUMetric cpuMetric = cpuMetricCollector.collectCPUMetric();

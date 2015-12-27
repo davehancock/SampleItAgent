@@ -16,12 +16,12 @@ import oshi.hardware.Processor;
  * @author David Hancock
  */
 @RunWith(MockitoJUnitRunner.class)
-public class OSHIMetricSourceTest {
+public class OSHICPUMetricSourceTest {
 
     private static final double CPU_TICK = 0.123412122121;
 
     @InjectMocks
-    private OSHIMetricSource oshiMetricSource = new OSHIMetricSource();
+    private OSHICPUMetricSource OSHICPUMetricSource = new OSHICPUMetricSource();
 
     @Mock
     private SystemInfo systemInfo;
@@ -41,7 +41,7 @@ public class OSHIMetricSourceTest {
         // Mock System Info Call
         Mockito.when(systemInfo.getHardware()).thenReturn(hardwareAbstractionLayerMock);
 
-        OSHICPUMetric oshicpuMetric = oshiMetricSource.readOSHICPUMetric();
+        OSHICPUMetric oshicpuMetric = OSHICPUMetricSource.readOSHICPUMetric();
         Assert.assertEquals(1, oshicpuMetric.getCpuClockSpeed().length);
         Assert.assertEquals(12.34, oshicpuMetric.getCpuClockSpeed()[0], 0.1);
     }

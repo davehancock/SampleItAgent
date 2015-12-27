@@ -1,16 +1,15 @@
 package com.djh.sampleit.configuration;
 
 import com.djh.sampleit.cpu.collector.CPUMetricCollector;
-import com.djh.sampleit.cpu.collector.DefaultCPUMetricCollector;
-import com.djh.sampleit.cpu.oshi.OSHICPUMetricSource;
+import com.djh.sampleit.memory.collector.DefaultMemoryMetricCollector;
+import com.djh.sampleit.memory.collector.MemoryMetricCollector;
+import com.djh.sampleit.memory.oshi.OSHIMemoryMetricSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.integration.core.MessageSource;
 import org.springframework.integration.dsl.IntegrationFlow;
-import org.springframework.integration.dsl.IntegrationFlowBuilder;
 import org.springframework.integration.dsl.IntegrationFlows;
 import org.springframework.integration.dsl.core.Pollers;
 import org.springframework.integration.endpoint.MethodInvokingMessageSource;
@@ -25,31 +24,28 @@ import java.util.Map;
  * @author David Hancock
  */
 @Configuration
-public class CPUConfiguration {
+public class MemoryConfiguration {
 
     @Bean
-    public CPUMetricCollector cpuMetricCollector() {
-        return new DefaultCPUMetricCollector();
+    public MemoryMetricCollector memoryMetricCollector() {
+        return new DefaultMemoryMetricCollector();
     }
 
     @Bean
-    public OSHICPUMetricSource oshiMetricSource() {
-        return new OSHICPUMetricSource();
+    public OSHIMemoryMetricSource oshiMemoryMetricSource() {
+        return new OSHIMemoryMetricSource();
     }
 
-    // TODO There may be an annotation supported method of achieving this, service activator-esque?
-    // Define the CPUMetricCollector as a message source
     @Bean
-    public MessageSource cpuMetricMessageSource(CPUMetricCollector cpuMetricCollector) {
+    public MessageSource cpuMetricMessageSource(MemoryMetricCollector memoryMetricCollector) {
         MethodInvokingMessageSource methodInvokingMessageSource = new MethodInvokingMessageSource();
-        methodInvokingMessageSource.setObject(cpuMetricCollector);
-        methodInvokingMessageSource.setMethodName("collectCPUMetric");
+        methodInvokingMessageSource.setObject(memoryMetricCollector);
+        methodInvokingMessageSource.setMethodName("collectMemoryMetric");
         return methodInvokingMessageSource;
     }
 
-    // Spring Integration DSL doesn't support HTTP namespace yet so we have to declare the endpoint explicitly like below.
     @Bean
-    public MessageHandler cpuHttpGateway(@Value("${sampleit.server.uri}/cpu") URI uri) {
+    public MessageHandler memoryHttpGateway(@Value("${sampleit.server.uri}/memory") URI uri) {
         HttpRequestExecutingMessageHandler httpHandler = new HttpRequestExecutingMessageHandler(uri);
         httpHandler.setExpectReply(false);
         return httpHandler;
@@ -57,16 +53,15 @@ public class CPUConfiguration {
 
     // The definition of this application's integration flow, essentially the stitching together of components.
     @Bean
-    public IntegrationFlow cpuMetricFlow(MessageSource cpuMetricMessageSource, MessageHandler cpuHttpGateway) {
+    public IntegrationFlow memoryMetricFlow(MessageSource memoryMetricMessageSource, MessageHandler memoryHttpGateway) {
 
         Map<String, Object> httpHeaders = new HashMap<>();
         httpHeaders.put("Content-Type", MediaType.APPLICATION_JSON_VALUE);
 
-        // TODO Integrate MetricMetadata service into this flow instead of injecting it into the specific collector implementation
         return IntegrationFlows
-                .from(cpuMetricMessageSource, p -> p.poller(Pollers.fixedRate(1000)))
+                .from(memoryMetricMessageSource, p -> p.poller(Pollers.fixedRate(1000)))
                 .enrichHeaders(httpHeaders)
-                .handle(cpuHttpGateway)
+                .handle(memoryHttpGateway)
                 .get();
     }
 

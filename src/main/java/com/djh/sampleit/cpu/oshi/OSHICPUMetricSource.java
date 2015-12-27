@@ -9,7 +9,7 @@ import oshi.hardware.Processor;
 /**
  * @author David Hancock
  */
-public class OSHIMetricSource {
+public class OSHICPUMetricSource {
 
     @Autowired
     private SystemInfo systemInfo;
