@@ -30,7 +30,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.djh.sampleit:SampleItCore:1.1.0'
+    compile 'com.djh.sampleit:SampleItCore:1.1.1'
 
     compile 'com.github.dblock:oshi-core:1.5.1'
     compile 'org.springframework.boot:spring-boot-starter-web:1.3.0.RELEASE'

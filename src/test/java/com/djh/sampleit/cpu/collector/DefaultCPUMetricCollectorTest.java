@@ -28,7 +28,7 @@ public class DefaultCPUMetricCollectorTest {
 
     private OSHICPUMetric oshicpuMetric = new OSHICPUMetric(NUMBER_OF_CORES, CPU_CLOCK_SPEEDS);
 
-    private MetricMetadata metricMetadata = new MetricMetadata("Foo", new Date());
+    private MetricMetadata metricMetadata = new MetricMetadata(new Date(), "foo", "bar", "car");
 
     @InjectMocks
     private CPUMetricCollector cpuMetricCollector = new DefaultCPUMetricCollector();
